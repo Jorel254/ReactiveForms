@@ -1,23 +1,42 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr />
 
-<form autocomplete="off" [formGroup]="myForm">
+<form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <!-- Nombre -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label" [for]="'name'">Nombre</label>
     <div class="col-sm-9">
-      <input class="form-control" placeholder="Nombre de la persona" formControlName="name" />
-      <app-error-validator [controlGroup]="myForm" [fieldInput]="'name'"></app-error-validator>
+      <input
+        class="form-control"
+        placeholder="Nombre de la persona"
+        formControlName="name"
+      />
+      <app-error-validator
+        [controlGroup]="myForm"
+        [fieldInput]="'name'"
+      ></app-error-validator>
     </div>
   </div>
 
   <!-- Agregar Favorito -->
   <div class="mb-3 row">
-    <label class="col-sm-3 col-form-label" [for]="'favoriteGames'">Agregar</label>
+    <label class="col-sm-3 col-form-label" [for]="'newFavoriteGame'"
+      >Agregar</label
+    >
     <div class="col-sm-9">
       <div class="input-group">
-        <input class="form-control" placeholder="Agregar favorito" />
-        <button class="btn btn-outline-primary" type="button">
+        <input
+          class="form-control"
+          placeholder="Agregar favorito"
+          [formControl]="newFavoriteGame"
+          (keydown.enter)="onAddGame()"
+          (keydown.enter)="$event.preventDefault()"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          (click)="onAddGame()"
+        >
           Agregar favorito
         </button>
       </div>
@@ -26,24 +45,48 @@
 
   <!-- Lista de Juegos Favoritos -->
   <div class="mb-3 row">
-    <label class="col-sm-3 col-form-label" [for]="'favoriteGames'">Favoritos</label>
+    <label class="col-sm-3 col-form-label" [for]="'favoriteGames'"
+      >Favoritos</label
+    >
     <div class="col-sm-9" formArrayName="favoriteGames">
       @for (game of favoriteGames.controls; track $index; let i = $index) {
       <div class="mb-1">
         <div class="input-group">
           <input class="form-control" [formControlName]="i" />
-          <button class="btn btn-outline-danger" type="button" (click)="onDeleteGame(i)">Eliminar</button>
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            (click)="onDeleteGame(i)"
+          >
+            Eliminar
+          </button>
         </div>
-        <app-error-array-validator [fieldArray]="favoriteGames" [index]="i"></app-error-array-validator>
+        <app-error-array-validator
+          [fieldArray]="favoriteGames"
+          [index]="i"
+        ></app-error-array-validator>
       </div>
       }
     </div>
-    <app-error-validator [controlGroup]="myForm" [fieldInput]="'favoriteGames'"></app-error-validator>
+    <app-error-validator
+      [controlGroup]="myForm"
+      [fieldInput]="'favoriteGames'"
+    ></app-error-validator>
   </div>
-
+  @if(myForm.invalid){
+  <div class="alert alert-danger">
+    <p>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span> El formulario tiene errores que deben ser corregidos antes de poder guardar </span>
+    </p>
+  </div>
+  }
   <div class="row">
     <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary float-end">
+      <button
+        type="submit"
+        class="btn btn-primary float-end"
+      >
         Guardar
       </button>
     </div>

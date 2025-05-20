@@ -11,7 +11,12 @@ import { ErrrorValidatorComponent } from '../../../shared/components/error-valid
 import { ErrorArrayValidatorComponent } from '../../../shared/components/error-array-validator/error-array-validator.component';
 @Component({
   selector: 'app-dynamic-page',
-  imports: [CommonModule, ReactiveFormsModule, ErrrorValidatorComponent, ErrorArrayValidatorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ErrrorValidatorComponent,
+    ErrorArrayValidatorComponent,
+  ],
   templateUrl: './dynamic-page.component.html',
   styleUrl: './dynamic-page.component.css',
 })
@@ -29,11 +34,24 @@ export class DynamicPageComponent {
     ),
   });
 
+  newFavoriteGame = this.fb.control('', [Validators.required]);
+
   get favoriteGames() {
     return this.myForm.get('favoriteGames') as FormArray;
   }
 
   onDeleteGame(index: number) {
     this.favoriteGames.removeAt(index);
+  }
+
+  onAddGame() {
+    if (this.newFavoriteGame.invalid) return;
+    const newGame = this.newFavoriteGame.value;
+    this.favoriteGames.push(this.fb.control(newGame, [Validators.required]));
+    this.newFavoriteGame.reset();
+  }
+
+  onSubmit() {
+    this.myForm.markAllAsTouched();
   }
 }
