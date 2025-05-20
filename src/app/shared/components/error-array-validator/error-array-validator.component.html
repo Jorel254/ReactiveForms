@@ -1,0 +1,5 @@
+@if (formUtils.isValidFieldArray(fieldArray(), index())) {
+  <span class="form-text text-danger">
+    {{ formUtils.getArrayError(fieldArray(), index()) }}
+  </span>
+}
