@@ -1,7 +1,7 @@
 @if (formUtils.isValidField(fieldInput(), controlGroup())) {
 <span class="form-text text-danger">
-  {{ formUtils.getFieldError(fieldInput(), controlGroup()) }}
+  {{
+    formUtils.getFieldError(fieldInput(), controlGroup(), errorMessage())
+  }}
 </span>
 }
-
-

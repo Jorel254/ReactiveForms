@@ -1,10 +1,10 @@
 <h2>Reactivos: Switches</h2>
 <hr />
 
-<form autocomplete="off">
+<form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <!-- Radio -->
   <div class="row mb-3">
-    <label class="col-sm-3 col-form-label">Género</label>
+    <label class="col-sm-3 col-form-label" for="genero">Género</label>
     <div class="col-sm-9">
       <div class="form-check">
         <input
@@ -12,9 +12,14 @@
           type="radio"
           value="M"
           id="radioMasculino"
+          formControlName="genero"
         />
         <label class="form-check-label" for="radioMasculino"> Masculino </label>
       </div>
+      <app-error-validator
+        [controlGroup]="myForm"
+        [fieldInput]="'genero'"
+      ></app-error-validator>
 
       <div class="form-check">
         <input
@@ -22,6 +27,7 @@
           type="radio"
           value="F"
           id="radioFemenino"
+          formControlName="genero"
         />
         <label class="form-check-label" for="radioFemenino"> Femenino </label>
       </div>
@@ -30,13 +36,16 @@
 
   <!-- Switches -->
   <div class="row mb-3">
-    <label class="col-sm-3 col-form-label">Notificaciones</label>
+    <label class="col-sm-3 col-form-label" for="wantNotifications"
+      >Notificaciones</label
+    >
     <div class="col-sm-9">
       <div class="form-check form-switch mt-2">
         <input
           class="form-check-input"
           type="checkbox"
           id="flexSwitchCheckChecked"
+          formControlName="wantNotifications"
         />
         <label class="form-check-label" for="flexSwitchCheckChecked"
           >Quiero recibir notificaciones</label
@@ -47,17 +56,25 @@
 
   <!-- Switches -->
   <div class="row mb-3">
-    <label class="col-sm-3 col-form-label"></label>
+    <label class="col-sm-3 col-form-label" for="termsAndConditions"
+      >Términos y condiciones</label
+    >
     <div class="col-sm-9">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="flexCheckDefault" />
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault"
+          formControlName="termsAndConditions"
+        />
         <label class="form-check-label" for="flexCheckDefault">
           Términos y condiciones de uso
         </label>
       </div>
-      <span class="form-text text-danger">
-        Debe de aceptar las condiciones de uso
-      </span>
+      <app-error-validator
+        [controlGroup]="myForm"
+        [fieldInput]="'termsAndConditions'"
+      ></app-error-validator>
     </div>
   </div>
 
@@ -70,15 +87,15 @@
 </form>
 
 <h5>Valor del formulario</h5>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ myForm.value | json }}</pre>
 <br />
 
 <h5>Persona</h5>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ myForm.controls["genero"].value | json }}</pre>
 <br />
 
 <h5>Valid</h5>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ myForm.valid | json }}</pre>
 
 <!-- <h5>Términos</h5> -->
 <!-- <pre>{{ myForm.controls?.terminos?.errors | json }}</pre> -->

@@ -10,6 +10,7 @@ import { FormUtils } from '../../../utils/form-utils';
 export class ErrrorValidatorComponent {
   fieldInput = input.required<string>();
   controlGroup = input.required<FormGroup>();
+  errorMessage = input<string>();
 
   formUtils = FormUtils;
 }

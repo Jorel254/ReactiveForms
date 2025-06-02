@@ -3,111 +3,145 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <!-- Nombre -->
       <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Nombre y apellido</label>
+        <label class="col-sm-3 col-form-label" for="name"
+          >Nombre y apellido</label
+        >
         <div class="col-sm-9">
           <input
             type="text"
             class="form-control"
             placeholder="Nombre del usuario"
+            formControlName="name"
           />
-
-          <span class="form-text text-danger">
-            Debe de ser en formato de nombre y apellido
-          </span>
+          <app-error-validator
+            [controlGroup]="myForm"
+            [fieldInput]="'name'"
+            [errorMessage]="'Nombre y apellido requerido'"
+          ></app-error-validator>
         </div>
       </div>
 
       <!-- Email -->
       <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Email</label>
+        <label class="col-sm-3 col-form-label" for="email">Email</label>
         <div class="col-sm-9">
           <input
             type="email"
             class="form-control"
             placeholder="Email del usuario"
+            formControlName="email"
           />
-          <span class="form-text text-danger">
-            mensaje de error del email
-          </span>
+          <app-error-validator
+            [controlGroup]="myForm"
+            [fieldInput]="'email'"
+            [errorMessage]="
+              'El correo electrónico no es válido, debe ser un correo electrónico válido'
+            "
+          ></app-error-validator>
         </div>
       </div>
 
       <!-- Username -->
       <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Username</label>
+        <label class="col-sm-3 col-form-label" for="username">Username</label>
         <div class="col-sm-9">
           <input
             type="text"
             class="form-control"
             placeholder="Nombre código del usuario"
+            formControlName="username"
           />
-          <span class="form-text text-danger">
-            El username no puede ser Strider
-          </span>
+          <app-error-validator
+            [controlGroup]="myForm"
+            [fieldInput]="'username'"
+            [errorMessage]="
+              'El nombre de usuario no es válido, debe ser un nombre de usuario válido'
+            "
+          ></app-error-validator>
         </div>
       </div>
 
       <!-- Password -->
       <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Password</label>
+        <label class="col-sm-3 col-form-label" for="password">Password</label>
         <div class="col-sm-9">
           <input
             type="password"
             class="form-control"
             placeholder="Password de su cuenta"
+            formControlName="password"
           />
 
-          <span class="form-text text-danger">
-            La contraseña debe de ser mayor de 6 caracteres.
-          </span>
+          <app-error-validator
+            [controlGroup]="myForm"
+            [fieldInput]="'password'"
+            [errorMessage]="
+              'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula,un número y un caracter especial'
+            "
+          ></app-error-validator>
         </div>
       </div>
 
       <!-- Password2 -->
       <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Confirmar</label>
+        <label class="col-sm-3 col-form-label" for="password2">Confirmar</label>
         <div class="col-sm-9">
           <input
             type="password"
             class="form-control"
             placeholder="Confirmar la contraseña"
+            formControlName="password2"
           />
 
-          <span class="form-text text-danger">
-            Las contraseñas deben de ser iguales
-          </span>
+          <app-error-validator
+            [controlGroup]="myForm"
+            [fieldInput]="'password2'"
+          ></app-error-validator>
+          @if (myForm.errors?.['notEqual']) {
+          <p class="text-danger">Las contraseñas no coinciden</p>
+          }
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <button class="btn btn-primary float-end" type="submit">Crear</button>
+          <button
+            class="btn btn-primary float-end"
+            type="submit"
+            [disabled]="
+              myForm.invalid ||
+              myForm.controls['password2'].value !==
+                myForm.controls['password'].value
+            "
+          >
+            Crear
+          </button>
         </div>
       </div>
     </form>
   </div>
 </div>
 
-<h2>Form Valid:</h2>
-<h2>Form Status:</h2>
-<h2>Form Pending:</h2>
-<h2>Form errors</h2>
-<pre>{{ "formulario" | json }}</pre>
+<h2>Form Valid: {{ myForm.valid | json }}</h2>
+<h2>Form Status: {{ myForm.status | json }}</h2>
+<h2>Form Pending: {{ myForm.pending | json }}</h2>
+<h2>Form errors: {{ myForm.errors | json }}</h2>
+<pre>{{ myForm.value | json }}</pre>
 
 <h5>Nombre</h5>
-<pre>{{ "formulario" | json }}</pre>
+<pre>{{ myForm.controls["name"].errors | json }}</pre>
 
 <h5>Email</h5>
-<pre>{{ "formulario" | json }}</pre>
+<pre>{{ myForm.controls["email"].errors | json }}</pre>
 
 <h5>Username</h5>
-<pre>{{ "formulario" | json }}</pre>
+<pre>{{ myForm.controls["username"].errors | json }}</pre>
 
 <h5>Password</h5>
-<pre>{{ "formulario" | json }}</pre>
+<pre>{{ myForm.controls["password"].errors | json }}</pre>
 
 <h5>Confirmar</h5>
-<pre>{{ "formulario" | json }}</pre>
+<pre>{{ myForm.controls["password2"].errors | json }}</pre>
